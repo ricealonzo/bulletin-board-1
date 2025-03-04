@@ -1,71 +1,64 @@
 <div>
-  <div>
-    <h1>
-      Board #<%= @the_board.id %> details
-    </h1>
 
+  <h1>
+    <%= @the_board.name %> 
+  </h1>
+
+        
+  <hr>
+
+  <h2>
+    Add a new post
+  </h2>
+
+  <form action="/insert_post" method="post">
     <div>
-      <div>
-        <a href="/boards">
-          Go back
-        </a>
-      </div>
+      <label for="title_box">
+        Title
+      </label>
 
-      <div>
-        <a href="/delete_board/<%= @the_board.id %>">
-          Delete board
-        </a>
-      </div>
+      <input type="text" id="title_box" name="query_title">
     </div>
 
-    <dl>
-      <dt>
-        Name
-      </dt>
-      <dd>
-        <%= @the_board.name %>
-      </dd>
+    <div>
+      <label for="body_box">
+        Body
+      </label>
 
-      <dt>
-        Created at
-      </dt>
-      <dd>
-        <%= time_ago_in_words(@the_board.created_at) %> ago
-      </dd>
+      <textarea id="body_box" name="query_body" rows="3"></textarea>
+    </div>
 
-      <dt>
-        Updated at
-      </dt>
-      <dd>
-        <%= time_ago_in_words(@the_board.updated_at) %> ago
-      </dd>
-    </dl>
-  </div>
-</div>
+    <div>
+      <label for="expires_on_box">
+        Expires on
+      </label>
 
+      <input type="date" id="expires_on_box" name="query_expires_on">
+    </div>
+
+    <input type="hidden" id="board_id_box" name="query_board_id" value="<%= @the_board.id %>">  
+
+    <button>
+      Add post
+    </button>
+  </form>
 <hr>
+<h1> Active Record0</h1>
+<% matching_post = Post.where({:board_id => @the_board.id}) %>
+<table>
 
+  <th>id</th>
+  <th>title</th>
+  <th>body</th>
+  <th>expires on</th>
+  <% matching_post.each do|match|%>
+  <tr>
+    <td><%= match.board_id%></td>
+    <td><%= match.title%></td>
+    <td><%= match.body%></td>
+    <td><%= match.expires_on%></td>
+  </tr>
+  <%end%>
+</table>
 
-<div>
-  <div>
-    <h2>
-      Edit board
-    </h2>
-
-    <form action="/modify_board/<%= @the_board.id %>"  method="post" >
-      <div>
-        <label for="name_box">
-          Name
-        </label>
-
-        <input type="text" id="name_box" name="query_name" value="<%= @the_board.name %>">
-      </div>
-
-      <button>
-        Update board
-      </button>
-    </form>
-  </div>
 </div>
-
-<hr>
